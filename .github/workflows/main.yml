@@ -23,12 +23,12 @@ jobs:
       - name: Lint Alpine Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          file: Dockerfile.alpine
+          dockerfile: Dockerfile.alpine
 
       - name: Lint Ubuntu Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
         with:
-          file: Dockerfile.ubuntu
+          dockerfile: Dockerfile.ubuntu
 
   build-and-push:
     runs-on: ubuntu-latest
