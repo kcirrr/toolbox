@@ -31,7 +31,7 @@ RUN apk add --no-cache \
     zip
 
 # Detect architecture and download appropriate mongocli binary
-RUN ARCH=$(apk --print-arch) && \
+RUN ARCH="$(apk --print-arch)" && \
     if [ "$ARCH" = "x86_64" ]; then \
         MONGOCLI_URL="https://fastdl.mongodb.org/mongocli/mongocli_2.0.0_linux_x86_64.tar.gz"; \
     elif [ "$ARCH" = "aarch64" ]; then \
@@ -39,8 +39,8 @@ RUN ARCH=$(apk --print-arch) && \
     else \
         echo "Unsupported architecture: $ARCH"; exit 1; \
     fi && \
-    curl -sLO $MONGOCLI_URL && \
-    tar -xzf $(basename $MONGOCLI_URL) && \
+    curl -sLO "$MONGOCLI_URL" && \
+    tar -xzf "$(basename "$MONGOCLI_URL")" && \
     mv mongocli_2.0.0_linux_*/bin/mongocli /usr/local/bin/ && \
     chmod 755 /usr/local/bin/mongocli && \
     rm -rf mongocli_2.0.0_linux_*
