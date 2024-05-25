@@ -1,0 +1,44 @@
+FROM ubuntu:noble-20240429
+
+# Install dependencies
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
+    apache2-utils \
+    bash-completion \
+    bind9-host \
+    ca-certificates \
+    curl \
+    dnsutils \
+    git \
+    gnupg \
+    info \
+    iputils-ping \
+    lsof \
+    mtr-tiny \
+    mysql-client \
+    net-tools \
+    nmap \
+    openssh-client \
+    openssl \
+    postgresql-client \
+    redis-tools \
+    rsync \
+    rclone \
+    strace \
+    tcptraceroute \
+    telnet \
+    unzip \
+    vim \
+    wget \
+    whois \
+    zip \
+    && curl -fsSL https://pgp.mongodb.com/server-7.0.asc | gpg -o /usr/share/keyrings/mongodb-archive-keyring.gpg --dearmor \
+    && echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-archive-keyring.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list \
+    && apt-get update \
+    && apt-get install -y mongocli \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    c_rehash
+
+CMD ["/bin/bash"]

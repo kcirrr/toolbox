@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: toolbox
+  labels:
+    app: toolbox
+spec:
+  containers:
+    - image: ghcr.io/kcirrr/toolbox:alpine
+      name: toolbox
+      command:
+        - "sleep"
+        - "86400"
