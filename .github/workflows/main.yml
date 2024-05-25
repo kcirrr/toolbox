@@ -18,22 +18,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.6
 
-      - name: Lint Dockerfile
-        uses: hadolint/hadolint-action@v2
+      - name: Lint Alpine Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
         with:
-          file: Dockerfile
+          file: Dockerfile.alpine
+
+      - name: Lint Ubuntu Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          file: Dockerfile.ubuntu
 
   build-and-push:
     runs-on: ubuntu-latest
     needs: lint
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.6
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3.0.0
         with:
           platforms: all
 
@@ -41,7 +46,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v4.0.2
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
@@ -49,14 +54,14 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Alpine Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5.3.0
         with:
           context: .
           dockerfile: Dockerfile.alpine
@@ -65,7 +70,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
       - name: Build and push Ubuntu Docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5.3.0
         with:
           context: .
           dockerfile: Dockerfile.ubuntu
@@ -78,17 +83,17 @@ jobs:
     needs: build-and-push
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.6
 
       - name: Scan Alpine Docker image with Trivy
-        uses: aquasecurity/trivy-action@v0.11.0
+        uses: aquasecurity/trivy-action@v0.21.0
         with:
           image-ref: ${{ env.ALPINE_IMAGE_NAME }}
           format: "sarif"
           output: "trivy-alpine.sarif"
 
       - name: Scan Ubuntu Docker image with Trivy
-        uses: aquasecurity/trivy-action@v0.11.0
+        uses: aquasecurity/trivy-action@v0.21.0
         with:
           image-ref: ${{ env.UBUNTU_IMAGE_NAME }}
           format: "sarif"
