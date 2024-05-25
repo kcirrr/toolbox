@@ -6,7 +6,8 @@ on:
       - main
     paths:
       - ".hadolint.yaml"
-      - "Dockerfile"
+      - "Dockerfile.alpine"
+      - "Dockerfile.ubuntu"
       - ".github/workflows/main.yml"
 
 env:
