@@ -101,11 +101,11 @@ jobs:
           output: "trivy-ubuntu.sarif"
 
       - name: Upload SARIF report for Alpine
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: trivy-alpine.sarif
 
       - name: Upload SARIF report for Ubuntu
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: trivy-ubuntu.sarif
