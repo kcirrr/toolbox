@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Lint Alpine Dockerfile
         uses: hadolint/hadolint-action@v3.1.0
@@ -36,7 +36,7 @@ jobs:
     needs: lint
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3.0.0
@@ -84,7 +84,7 @@ jobs:
     needs: build-and-push
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Scan Alpine Docker image with Trivy
         uses: aquasecurity/trivy-action@v0.21.0
